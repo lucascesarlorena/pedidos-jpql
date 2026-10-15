@@ -1,5 +1,6 @@
 package com.br.pedidos_jpql.principal;
 
+import com.br.pedidos_jpql.model.Categoria;
 import com.br.pedidos_jpql.repository.CategoriaRepository;
 import com.br.pedidos_jpql.repository.PedidoRepository;
 import com.br.pedidos_jpql.repository.ProdutoRepository;
@@ -53,7 +54,21 @@ public class Principal {
 
 
     private void cadastrarCategoria() {
-        System.out.println("Cadastrando categoria...");
+        System.out.println("Qual o nome da categoria: ");
+        String nomeCategoria = scanner.nextLine().trim();
+        if(nomeCategoria.isBlank()){
+            System.out.println("Nome da categoria não pode ser vazio!");
+            return;
+        }
+        categoriaRepository.findByNome(nomeCategoria).ifPresentOrElse(
+                categoria -> System.out.println("Categoria já cadastrada: " + categoria.getNome()),
+                () -> {
+                    var categoria = new Categoria(nomeCategoria);
+                    categoriaRepository.save(categoria);
+                    System.out.println("Categoria cadastrada com sucesso: " + categoria);
+                }
+        );
+
     }
 
     private void cadastrarProduto() {
