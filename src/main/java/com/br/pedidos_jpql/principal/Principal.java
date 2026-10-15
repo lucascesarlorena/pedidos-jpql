@@ -112,8 +112,15 @@ public class Principal {
     }
 
     private void listarProdutos() {
-        System.out.println("Listando produtos...");
+        System.out.println("...Listando produtos...");
+
+        var produtos = produtoRepository.findAll();
+
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado!");
+        } else {
+            produtos.forEach(System.out::println);
+        }
+
     }
-
-
 }
