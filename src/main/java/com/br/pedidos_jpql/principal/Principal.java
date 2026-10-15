@@ -1,13 +1,17 @@
 package com.br.pedidos_jpql.principal;
 
 import com.br.pedidos_jpql.model.Categoria;
+import com.br.pedidos_jpql.model.Pedido;
 import com.br.pedidos_jpql.model.Produto;
 import com.br.pedidos_jpql.repository.CategoriaRepository;
 import com.br.pedidos_jpql.repository.PedidoRepository;
 import com.br.pedidos_jpql.repository.ProdutoRepository;
-import org.springframework.boot.CommandLineRunner;
 
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
 
 public class Principal {
     private Scanner scanner = new Scanner(System.in);
@@ -108,7 +112,21 @@ public class Principal {
     }
 
     private void cadastrarPedido() {
-        System.out.println("Cadastrando pedido...");
+        System.out.println("...Cadastrando pedido...");
+        System.out.println("Qual a data do pedido: ");
+        String dataPedido = scanner.nextLine().trim();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataDoPedido;
+
+        if(dataPedido.isBlank()) {
+            dataDoPedido = LocalDate.now();
+            System.out.println("Data do pedido não informada, usando data atual: " + dataDoPedido.format(formatter));
+        }else {
+            dataDoPedido = LocalDate.parse(dataPedido, formatter);
+        }
+        var pedido = new Pedido(dataDoPedido);
+        pedidoRepository.save(pedido);
+        System.out.println("Pedido cadastrado com sucesso: " + pedido);
     }
 
     private void listarProdutos() {
