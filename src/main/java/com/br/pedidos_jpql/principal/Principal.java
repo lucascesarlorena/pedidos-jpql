@@ -26,20 +26,21 @@ public class Principal {
         this.produtoRepository = produtoRepository;
     }
 
-    public void exibirMenu(){
+    public void exibirMenu() {
         int opcao = -1;
 
         while (opcao != 0) {
             var menu = """
-                
-                === MENU ===
-                1 - Cadastrar categoria
-                2 - Cadastrar produto
-                3 - Cadastrar pedido
-                4 - Listar produtos
-                
-                0 - Sair
-                """;
+                    
+                    === MENU ===
+                    1 - Cadastrar categoria
+                    2 - Cadastrar produto
+                    3 - Cadastrar pedido
+                    4 - Listar produtos
+                    5 - Produtos com preço maior que um valor
+                    
+                    0 - Sair
+                    """;
 
             System.out.println(menu);
             System.out.print("Escolha uma opção: ");
@@ -51,6 +52,7 @@ public class Principal {
                 case 2 -> cadastrarProduto();
                 case 3 -> cadastrarPedido();
                 case 4 -> listarProdutos();
+                case 5 -> buscarProdutosComPrecoMaiorQue();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -61,7 +63,7 @@ public class Principal {
     private void cadastrarCategoria() {
         System.out.println("Qual o nome da categoria: ");
         String nomeCategoria = scanner.nextLine().trim();
-        if(nomeCategoria.isBlank()){
+        if (nomeCategoria.isBlank()) {
             System.out.println("Nome da categoria não pode ser vazio!");
             return;
         }
@@ -79,7 +81,7 @@ public class Principal {
     private void cadastrarProduto() {
         System.out.println("Qual o nome do produto: ");
         String nomeProduto = scanner.nextLine().trim();
-        if(nomeProduto.isBlank()) {
+        if (nomeProduto.isBlank()) {
             System.out.println("Nome do produto não pode ser vazio!");
             return;
         }
@@ -90,7 +92,7 @@ public class Principal {
         System.out.println("Qual o preço do produto (ex: 3.000,50): ");
         String precoTexto = scanner.nextLine().trim();
         double precoProduto = Double.parseDouble(precoTexto.replace(".", "").replace(",", "."));
-        if(precoProduto <= 0) {
+        if (precoProduto <= 0) {
             System.out.println("Preço do produto deve ser maior que zero!");
             return;
         }
@@ -118,10 +120,10 @@ public class Principal {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dataDoPedido;
 
-        if(dataPedido.isBlank()) {
+        if (dataPedido.isBlank()) {
             dataDoPedido = LocalDate.now();
             System.out.println("Data do pedido não informada, usando data atual: " + dataDoPedido.format(formatter));
-        }else {
+        } else {
             dataDoPedido = LocalDate.parse(dataPedido, formatter);
         }
         var pedido = new Pedido(dataDoPedido);
@@ -140,5 +142,19 @@ public class Principal {
             produtos.forEach(System.out::println);
         }
 
+    }
+
+
+    private void buscarProdutosComPrecoMaiorQue() {
+        System.out.println("qual o valor do preço?");
+        String precoTexto = scanner.nextLine().trim();
+        double preco = Double.parseDouble(precoTexto.replace(".", "").replace(",", "."));
+        var produtos = produtoRepository.buscarProdutosComPrecoMaiorQue(preco);
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto encontrado com preço maior que: " + preco);
+        } else {
+            System.out.println("Produtos com preço maior que " + preco + ":");
+            produtos.forEach(System.out::println);
+        }
     }
 }
