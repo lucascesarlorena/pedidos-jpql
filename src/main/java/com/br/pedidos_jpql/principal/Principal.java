@@ -40,6 +40,8 @@ public class Principal {
                     4 - Listar produtos
                     5 - Produtos com preço maior que um valor
                     6 - Listar produtos ordenados por preço crescente
+                    7 - Listar produtos ordenados por preço decrescente
+                    8 - Produtos que começam com uma letra
                     
                     0 - Sair
                     """;
@@ -56,12 +58,13 @@ public class Principal {
                 case 4 -> listarProdutos();
                 case 5 -> buscarProdutosComPrecoMaiorQue();
                 case 6 -> buscarProdutosOrdenadosPorPrecoCrescente();
+                case 7 -> buscarProdutosOrdenadosPorPrecoDecrescente();
+                case 8 -> buscarProdutosQueComecamComUmaLetra();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
         }
     }
-
 
     private void cadastrarCategoria() {
         System.out.println("Qual o nome da categoria: ");
@@ -171,4 +174,30 @@ public class Principal {
         }
     }
 
+    public void buscarProdutosOrdenadosPorPrecoDecrescente(){
+        var produtos = produtoRepository.buscarProdutosOrdenadosPorPrecoDecrescente();
+        if(produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.println("Produtos ordenados por preço decrescente:");
+            produtos.forEach(System.out::println);
+        }
+    }
+
+    private void buscarProdutosQueComecamComUmaLetra() {
+        System.out.println("Qual a letra inicial dos produtos que deseja buscar?");
+        String letra = scanner.nextLine().trim();
+        if (letra.isBlank()) {
+            System.out.println("Letra não pode ser vazia!");
+            return;
+        }
+        var produtos = produtoRepository.buscarProdutosQueComecamComUmaLetra(letra);
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto encontrado que comece com a letra: " + letra);
+        } else {
+            System.out.println("Produtos que começam com a letra " + letra + ":");
+            produtos.forEach(System.out::println);
+        }
+
+    }
 }

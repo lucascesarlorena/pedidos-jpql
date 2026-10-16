@@ -20,5 +20,11 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p order by p.preco asc")
     List<Produto> buscarProdutosOrdenadosPorPrecoCrescente();
 
+    @Query("SELECT p FROM Produto p ORDER BY p.preco DESC")
+    List<Produto> buscarProdutosOrdenadosPorPrecoDecrescente();
+
+    @Query("SELECT P FROM Produto P WHERE UPPER(P.nome) LIKE UPPER(CONCAT(:letra, '%'))")
+    List<Produto> buscarProdutosQueComecamComUmaLetra(@Param("letra") String letra);
+
 
 }
