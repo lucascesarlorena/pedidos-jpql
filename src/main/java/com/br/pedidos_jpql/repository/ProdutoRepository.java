@@ -20,5 +20,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p order by p.preco asc")
     List<Produto> buscarProdutosOrdenadosPorPrecoCrescente();
 
+    @Query("SELECT p FROM Produto p ORDER BY p.preco DESC")
+    List<Produto> buscarProdutosOrdenadosPorPrecoDecrescente();
+
 
 }

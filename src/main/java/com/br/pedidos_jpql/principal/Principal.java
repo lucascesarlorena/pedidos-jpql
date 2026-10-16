@@ -40,6 +40,7 @@ public class Principal {
                     4 - Listar produtos
                     5 - Produtos com preço maior que um valor
                     6 - Listar produtos ordenados por preço crescente
+                    7 - Listar produtos ordenados por preço decrescente
                     
                     0 - Sair
                     """;
@@ -56,6 +57,7 @@ public class Principal {
                 case 4 -> listarProdutos();
                 case 5 -> buscarProdutosComPrecoMaiorQue();
                 case 6 -> buscarProdutosOrdenadosPorPrecoCrescente();
+                case 7 -> buscarProdutosOrdenadosPorPrecoDecrescente();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -167,6 +169,16 @@ public class Principal {
             System.out.println("Nenhum produto cadastrado.");
         } else {
             System.out.println("Produtos ordenados por preço crescente:");
+            produtos.forEach(System.out::println);
+        }
+    }
+
+    public void buscarProdutosOrdenadosPorPrecoDecrescente(){
+        var produtos = produtoRepository.buscarProdutosOrdenadosPorPrecoDecrescente();
+        if(produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.println("Produtos ordenados por preço decrescente:");
             produtos.forEach(System.out::println);
         }
     }
