@@ -6,6 +6,7 @@ import com.br.pedidos_jpql.model.Produto;
 import com.br.pedidos_jpql.repository.CategoriaRepository;
 import com.br.pedidos_jpql.repository.PedidoRepository;
 import com.br.pedidos_jpql.repository.ProdutoRepository;
+import org.springframework.data.jpa.repository.Query;
 
 
 import java.time.LocalDate;
@@ -38,6 +39,7 @@ public class Principal {
                     3 - Cadastrar pedido
                     4 - Listar produtos
                     5 - Produtos com preço maior que um valor
+                    6 - Listar produtos ordenados por preço crescente
                     
                     0 - Sair
                     """;
@@ -53,6 +55,7 @@ public class Principal {
                 case 3 -> cadastrarPedido();
                 case 4 -> listarProdutos();
                 case 5 -> buscarProdutosComPrecoMaiorQue();
+                case 6 -> buscarProdutosOrdenadosPorPrecoCrescente();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -157,4 +160,15 @@ public class Principal {
             produtos.forEach(System.out::println);
         }
     }
+
+    public void buscarProdutosOrdenadosPorPrecoCrescente() {
+        var produtos = produtoRepository.buscarProdutosOrdenadosPorPrecoCrescente();
+        if(produtos.isEmpty()) {
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.println("Produtos ordenados por preço crescente:");
+            produtos.forEach(System.out::println);
+        }
+    }
+
 }

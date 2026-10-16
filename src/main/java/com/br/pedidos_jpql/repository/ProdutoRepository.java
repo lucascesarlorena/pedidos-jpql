@@ -17,4 +17,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p FROM Produto p WHERE p.preco > :preco")
     List<Produto> buscarProdutosComPrecoMaiorQue(@Param("preco") Double preco);
 
+    @Query("SELECT p FROM Produto p order by p.preco asc")
+    List<Produto> buscarProdutosOrdenadosPorPrecoCrescente();
+
+
 }
