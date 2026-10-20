@@ -31,4 +31,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     @Query("SELECT MAX(p.preco) FROM Produto p WHERE UPPER(p.categoria.nome) = UPPER(:nomeCategoria)")
     Double buscarPrecoMaximoPorCategoria(@Param("nomeCategoria") String nomeCategoria);
+
+    @Query("SELECT p.categoria.nome, COUNT(p) FROM Produto p GROUP BY p.categoria.nome ORDER BY COUNT(p) DESC")
+    List<Object[]> contarProdutosPorCategoria();
+
 }

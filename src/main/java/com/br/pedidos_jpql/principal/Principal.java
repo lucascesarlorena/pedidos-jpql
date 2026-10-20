@@ -45,6 +45,7 @@ public class Principal {
                     9 - Pedidos entre duas datas
                     10 - Média de preços dos produtos
                     11 - Preço máximo de uma categoria
+                    12 - Contar produtos por categoria
                     
                     0 - Sair
                     """;
@@ -66,6 +67,7 @@ public class Principal {
                 case 9 -> buscarPedidosEntreDatas();
                 case 10 -> buscarMediaDePrecoDosProdutos();
                 case 11 -> buscarPrecoMaximoPorCategoria();
+                case 12 -> contarProdutosPorCategoria();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -247,4 +249,18 @@ public class Principal {
             System.out.printf("Preço máximo da categoria %s: %.2f%n", nomeCategoria, precoMaximo);
         }
     }
+
+
+    public void contarProdutosPorCategoria(){
+        var resultado = produtoRepository.contarProdutosPorCategoria();
+        if(resultado.isEmpty()){
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.println("Contagem de produtos por categoria:");
+            for (Object[] linha : resultado) {
+                System.out.printf("Categoria: %s, Quantidade: %d%n", linha[0], linha[1]);
+            }
+        }
+    }
+
 }
