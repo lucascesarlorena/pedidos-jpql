@@ -44,6 +44,7 @@ public class Principal {
                     8 - Produtos que começam com uma letra
                     9 - Pedidos entre duas datas
                     10 - Média de preços dos produtos
+                    11 - Preço máximo de uma categoria
                     
                     0 - Sair
                     """;
@@ -64,6 +65,7 @@ public class Principal {
                 case 8 -> buscarProdutosQueComecamComUmaLetra();
                 case 9 -> buscarPedidosEntreDatas();
                 case 10 -> buscarMediaDePrecoDosProdutos();
+                case 11 -> buscarPrecoMaximoPorCategoria();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -221,13 +223,28 @@ public class Principal {
         }
     }
 
-    private void buscarMediaDePrecoDosProdutos(){
+    private void buscarMediaDePrecoDosProdutos() {
         Double mediaPreco = produtoRepository.buscarMediaDePrecoDosProdutos();
-        if(mediaPreco == null) {
+        if (mediaPreco == null) {
             System.out.println("Nenhum produto cadastrado.");
         } else {
             System.out.printf("Média de preços dos produtos: %.2f%n", mediaPreco);
 
+        }
+    }
+
+    private void buscarPrecoMaximoPorCategoria() {
+        System.out.println("Qual o nome da categoria para buscar o preco maximo?");
+        String nomeCategoria = scanner.nextLine().trim();
+        if (nomeCategoria.isBlank()) {
+            System.out.println("Nome da categoria não pode ser vazio!");
+            return;
+        }
+        Double precoMaximo = produtoRepository.buscarPrecoMaximoPorCategoria(nomeCategoria);
+        if (precoMaximo == null) {
+            System.out.println("Nenhum produto encontrado na categoria: " + nomeCategoria);
+        } else {
+            System.out.printf("Preço máximo da categoria %s: %.2f%n", nomeCategoria, precoMaximo);
         }
     }
 }
