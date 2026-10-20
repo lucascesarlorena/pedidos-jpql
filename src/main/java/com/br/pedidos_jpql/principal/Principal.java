@@ -48,6 +48,7 @@ public class Principal {
                     12 - Contar produtos por categoria
                     13 - Buscar categorias com mais de 10 produtos
                     14 - Buscar produtos por nome ou categoria
+                    15 - Buscar top 5 produtos mais caros
                     
                     0 - Sair
                     """;
@@ -72,6 +73,7 @@ public class Principal {
                 case 12 -> contarProdutosPorCategoria();
                 case 13 -> buscarCategoriasComMaisDe10Produtos();
                 case 14 -> buscarProdutosPorNomeOuCategoria();
+                case 15 -> buscarTop5ProdutosMaisCaros();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -289,6 +291,16 @@ public class Principal {
             System.out.println("Nenhum produto encontrado com o termo: " + termo);
         } else {
             System.out.println("Produtos encontrados com o termo " + termo + ":");
+            produtos.forEach(System.out::println);
+        }
+    }
+
+    private void buscarTop5ProdutosMaisCaros(){
+        var produtos = produtoRepository.buscarTop5ProdutosMaisCaros();
+        if(produtos.isEmpty()){
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.println("Top 5 produtos mais caros:");
             produtos.forEach(System.out::println);
         }
     }
