@@ -35,4 +35,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT p.categoria.nome, COUNT(p) FROM Produto p GROUP BY p.categoria.nome ORDER BY COUNT(p) DESC")
     List<Object[]> contarProdutosPorCategoria();
 
+
+    @Query("SELECT p FROM Produto p WHERE UPPER(p.nome) LIKE UPPER(CONCAT('%', :termo, '%')) OR UPPER(p.categoria.nome) LIKE UPPER(CONCAT('%', :termo, '%'))")
+    List<Produto> buscarProdutosPorNomeOuCategoria(@Param("termo") String termoString);
+
 }

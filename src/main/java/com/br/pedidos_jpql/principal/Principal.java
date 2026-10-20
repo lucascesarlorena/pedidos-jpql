@@ -47,6 +47,7 @@ public class Principal {
                     11 - Preço máximo de uma categoria
                     12 - Contar produtos por categoria
                     13 - Buscar categorias com mais de 10 produtos
+                    14 - Buscar produtos por nome ou categoria
                     
                     0 - Sair
                     """;
@@ -70,6 +71,7 @@ public class Principal {
                 case 11 -> buscarPrecoMaximoPorCategoria();
                 case 12 -> contarProdutosPorCategoria();
                 case 13 -> buscarCategoriasComMaisDe10Produtos();
+                case 14 -> buscarProdutosPorNomeOuCategoria();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -272,6 +274,22 @@ public class Principal {
         } else {
             System.out.println("Categorias com mais de 10 produtos:");
             categorias.forEach(categoria -> System.out.println(categoria.getNome()));
+        }
+    }
+
+    private void buscarProdutosPorNomeOuCategoria(){
+        System.out.println("Digite o termo para buscar produtos por nome ou categoria: ");
+        String termo = scanner.nextLine().trim();
+        if(termo.isBlank()){
+            System.out.println("Termo não pode ser vazio!");
+            return;
+        }
+        var produtos = produtoRepository.buscarProdutosPorNomeOuCategoria(termo);
+        if(produtos.isEmpty()){
+            System.out.println("Nenhum produto encontrado com o termo: " + termo);
+        } else {
+            System.out.println("Produtos encontrados com o termo " + termo + ":");
+            produtos.forEach(System.out::println);
         }
     }
 
