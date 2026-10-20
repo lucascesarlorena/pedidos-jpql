@@ -42,6 +42,7 @@ public class Principal {
                     6 - Listar produtos ordenados por preço crescente
                     7 - Listar produtos ordenados por preço decrescente
                     8 - Produtos que começam com uma letra
+                    9 - Pedidos entre duas datas
                     
                     0 - Sair
                     """;
@@ -60,6 +61,7 @@ public class Principal {
                 case 6 -> buscarProdutosOrdenadosPorPrecoCrescente();
                 case 7 -> buscarProdutosOrdenadosPorPrecoDecrescente();
                 case 8 -> buscarProdutosQueComecamComUmaLetra();
+                case 9 -> buscarPedidosEntreDatas();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -164,9 +166,9 @@ public class Principal {
         }
     }
 
-    public void buscarProdutosOrdenadosPorPrecoCrescente() {
+    private void buscarProdutosOrdenadosPorPrecoCrescente() {
         var produtos = produtoRepository.buscarProdutosOrdenadosPorPrecoCrescente();
-        if(produtos.isEmpty()) {
+        if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");
         } else {
             System.out.println("Produtos ordenados por preço crescente:");
@@ -174,9 +176,9 @@ public class Principal {
         }
     }
 
-    public void buscarProdutosOrdenadosPorPrecoDecrescente(){
+    private void buscarProdutosOrdenadosPorPrecoDecrescente() {
         var produtos = produtoRepository.buscarProdutosOrdenadosPorPrecoDecrescente();
-        if(produtos.isEmpty()) {
+        if (produtos.isEmpty()) {
             System.out.println("Nenhum produto cadastrado.");
         } else {
             System.out.println("Produtos ordenados por preço decrescente:");
@@ -199,6 +201,21 @@ public class Principal {
             produtos.forEach(System.out::println);
         }
 
+    }
 
+    private void buscarPedidosEntreDatas() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.println("Qual a data inicial (dd/MM/yyyy): ");
+        String dataInicioTexto = scanner.nextLine().trim();
+        LocalDate dataInicio = LocalDate.parse(dataInicioTexto, formatter);
+        System.out.println("Qual a data final (dd/MM/yyyy): ");
+        String dataFimTexto = scanner.nextLine().trim();
+        LocalDate dataFim = LocalDate.parse(dataFimTexto, formatter);
+        var pedidos = pedidoRepository.buscarPedidosEntreDatas(dataInicio, dataFim);
+        if (pedidos.isEmpty()) {
+            System.out.println("Nenhum pedido encontrado entre as datas: " + dataInicio.format(formatter) + " e " + dataFim.format(formatter));
+        } else {
+            pedidos.forEach(System.out::println);
+        }
     }
 }
