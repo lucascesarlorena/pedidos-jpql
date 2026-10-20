@@ -46,6 +46,7 @@ public class Principal {
                     10 - Média de preços dos produtos
                     11 - Preço máximo de uma categoria
                     12 - Contar produtos por categoria
+                    13 - Buscar categorias com mais de 10 produtos
                     
                     0 - Sair
                     """;
@@ -68,6 +69,7 @@ public class Principal {
                 case 10 -> buscarMediaDePrecoDosProdutos();
                 case 11 -> buscarPrecoMaximoPorCategoria();
                 case 12 -> contarProdutosPorCategoria();
+                case 13 -> buscarCategoriasComMaisDe10Produtos();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -251,7 +253,7 @@ public class Principal {
     }
 
 
-    public void contarProdutosPorCategoria(){
+    private void contarProdutosPorCategoria(){
         var resultado = produtoRepository.contarProdutosPorCategoria();
         if(resultado.isEmpty()){
             System.out.println("Nenhum produto cadastrado.");
@@ -260,6 +262,16 @@ public class Principal {
             for (Object[] linha : resultado) {
                 System.out.printf("Categoria: %s, Quantidade: %d%n", linha[0], linha[1]);
             }
+        }
+    }
+
+    private void buscarCategoriasComMaisDe10Produtos(){
+        var categorias = categoriaRepository.buscarCategoriasComMaisDe10Produtos();
+        if(categorias.isEmpty()){
+            System.out.println("Nenhuma categoria encontrada com mais de 10 produtos.");
+        } else {
+            System.out.println("Categorias com mais de 10 produtos:");
+            categorias.forEach(categoria -> System.out.println(categoria.getNome()));
         }
     }
 
