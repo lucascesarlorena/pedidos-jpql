@@ -26,5 +26,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     @Query("SELECT P FROM Produto P WHERE UPPER(P.nome) LIKE UPPER(CONCAT(:letra, '%'))")
     List<Produto> buscarProdutosQueComecamComUmaLetra(@Param("letra") String letra);
 
+    @Query("SELECT AVG(p.preco) FROM Produto p")
+    Double buscarMediaDePrecoDosProdutos();
 
 }

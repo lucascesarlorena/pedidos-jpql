@@ -43,6 +43,7 @@ public class Principal {
                     7 - Listar produtos ordenados por preço decrescente
                     8 - Produtos que começam com uma letra
                     9 - Pedidos entre duas datas
+                    10 - Média de preços dos produtos
                     
                     0 - Sair
                     """;
@@ -62,6 +63,7 @@ public class Principal {
                 case 7 -> buscarProdutosOrdenadosPorPrecoDecrescente();
                 case 8 -> buscarProdutosQueComecamComUmaLetra();
                 case 9 -> buscarPedidosEntreDatas();
+                case 10 -> buscarMediaDePrecoDosProdutos();
                 case 0 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -216,6 +218,16 @@ public class Principal {
             System.out.println("Nenhum pedido encontrado entre as datas: " + dataInicio.format(formatter) + " e " + dataFim.format(formatter));
         } else {
             pedidos.forEach(System.out::println);
+        }
+    }
+
+    private void buscarMediaDePrecoDosProdutos(){
+        Double mediaPreco = produtoRepository.buscarMediaDePrecoDosProdutos();
+        if(mediaPreco == null) {
+            System.out.println("Nenhum produto cadastrado.");
+        } else {
+            System.out.printf("Média de preços dos produtos: %.2f%n", mediaPreco);
+
         }
     }
 }
